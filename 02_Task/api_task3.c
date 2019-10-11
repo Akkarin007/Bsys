@@ -18,6 +18,7 @@ int rc = fork();
 		// child: redirect standard output to a file
 		printf("(hallo) hello, I am child (pid:%d)\n", (int) getpid());
 	} else {
+		sleep(1);
 		// parent goes down this path (main)
 		printf("(goodbye) hello, I am parent of %d (pid:%d)\n", rc, (int) getpid());
 	}
