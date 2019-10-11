@@ -14,10 +14,12 @@ int main(void)
 		exit(1);
 	} else if (rc == 0) {
 		x = 42;
-		printf("%d\n", x);
+		printf("pid is %d and my value is %d\n", getpid(), x);
 	} else {
 		x = 100;
-		printf("%d\n", x);
+		printf("pid is %d and my value is %d\n", getpid(), x);
 	}
+
+	printf("final value is %d\n", x);
 	return 0;
 }
