@@ -7,22 +7,17 @@
 
 int main(void)
 {
+	int x = 69;
 	int rc = fork();
 	if (rc < 0) {
 		fprintf(stderr, "fork failed\n");
 		exit(1);
 	} else if (rc == 0) {
-		close(STDOUT_FILENO);
-		open("./p4.output", O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
-		
-		// now exec "wc"
-		char *myargs[3];
-		myargs[0] = strdup("wc");
-		myargs[1] = strdup("p4.c");
-		myargs[2] = NULL;
-		execvp(myargs[0], myargs);
+		x = 42;
+		fprintf("%d\n", x);
 	} else {
-		int wc = wait(NULL);
+		x = 100;
+		fprintf("%d\n", x);
 	}
 	return 0;
 }
