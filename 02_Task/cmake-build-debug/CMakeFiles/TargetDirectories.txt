@@ -1,3 +1,0 @@
-C:/Users/ismoz/Documents/00_GitHub/Bsys/02_Task/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/ismoz/Documents/00_GitHub/Bsys/02_Task/cmake-build-debug/CMakeFiles/02_Task.dir
-C:/Users/ismoz/Documents/00_GitHub/Bsys/02_Task/cmake-build-debug/CMakeFiles/edit_cache.dir
