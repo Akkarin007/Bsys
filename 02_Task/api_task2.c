@@ -7,11 +7,10 @@
 
 int main(void) {
 	int fd = open("./task02.txt", O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
-	char *buf1 = "I am parent";
-	char *buf2 = "I am child";
+	char *buf1 = "I am parent\n";
+	char *buf2 = "I am child\n";
    	
-	if (fd == -1)
-	{
+	if (fd == -1) {
 		perror("file could not be opened");
 		exit(1);
 	}
@@ -22,11 +21,9 @@ int main(void) {
        		fprintf(stderr, "fork failed\n");
        		exit(1);
    	} else if (rc == 0) {
-       		write(fd, buf, strlen(buf));
+       		write(fd, buf1, strlen(buf1));
        	} else {
-		write(fd, buf, strlen(buf));
-       		// parent goes down this path (main)
-       		int rc_wait = wait(NULL);
+		write(fd, buf2, strlen(buf2));
 	}
 	return 0;
 }
