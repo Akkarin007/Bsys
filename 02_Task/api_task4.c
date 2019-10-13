@@ -5,6 +5,8 @@
  #include <fcntl.h>
  #include <sys/wait.h>
 
+//int favNum = 42; if the other file had the similar var this one would be reinitialized by executing exec()
+
  int main(void) {
 	printf("helloApiTask4.c:\n");
 	printf("	My PID %d.\n", getpid());
@@ -25,10 +27,11 @@
 	myargs[2] = NULL; // end of arguments/file
 
 	//With L: comma separated arguments
-	execl(myargs[0], "-l",NULL);
+	//execl(myargs[0], "-l",NULL);
 	//With V: Vector (i.e., an array of strings)
-	//execvp(myargs[0], myargs); // runs ls -l command
-
+	//execv(myargs[0], myargs); 
+	//With P: Include normal search path for execitable
+	execvp(myargs[0],myargs); //runs ls -l command
 } else {
 	// parent goes down this path (main)
 	int rc_wait = wait(NULL);
