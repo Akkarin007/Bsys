@@ -1,12 +1,8 @@
  #include <stdio.h>
  #include <stdlib.h>
  #include <unistd.h>
- #include <string.h>
- #include <fcntl.h>
- #include <sys/wait.h>
- #include <sys/time.h>
- #include <errno.h>
-
+ #include <time.h>
+ 
  int main(int argc, char ** argv) {
 
 
@@ -17,19 +13,25 @@
 	printf("helloMechanismTask4.c:\n");
 	printf("	My PID %d.\n", getpid());
 
-	int n = atoi(argv[1]);
-	struct timeval start, end;
+	long long n = atoi(argv[1]);
+	struct timespec start, end;
 
-	gettimeofday(&start, NULL);
-
-	for(int i = 0; i < n; ++i){
-		open("./mechanism01.txt", O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
+	if(clock_gettime(CLOCK_REALTIME, &start) == -1){
+	perror("time error");
+	return 1;
 	}
 
-	gettimeofday(&end, NULL);
+	for(int i = 0; i < n; ++i){
+		read(0,NULL,0);
+	}
+
+        if(clock_gettime(CLOCK_REALTIME, &end) == -1){
+        perror("time error");
+        return 1;
+        }
 
 
-	printf("duration in milliseconds: %ld\n", (end.tv_usec - start.tv_usec));
-	close(STDOUT_FILENO);
+	printf("duration in nanoseconds: %lld\n", (end.tv_nsec - start.tv_nsec)/n);
+
  return 0;
 }
