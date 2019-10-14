@@ -1,9 +1,9 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <unistd.h>
- #include <time.h>
- 
- int main(int argc, char ** argv) {
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+
+int main(int argc, char ** argv) {
 
 
 	if(argc !=2){
@@ -15,23 +15,17 @@
 
 	long long n = atoi(argv[1]);
 	struct timespec start, end;
-
-	if(clock_gettime(CLOCK_REALTIME, &start) == -1){
-	perror("time error");
-	return 1;
-	}
+	long long result = 0;
 
 	for(int i = 0; i < n; ++i){
+		clock_gettime(CLOCK_REALTIME, &start);
 		read(0,NULL,0);
+		clock_gettime(CLOCK_REALTIME, &end);
+		result += (end.tv_nsec - start.tv_nsec);
 	}
 
-        if(clock_gettime(CLOCK_REALTIME, &end) == -1){
-        perror("time error");
-        return 1;
-        }
 
+	printf("duration in nanoseconds: %lld\n", result/n);
 
-	printf("duration in nanoseconds: %lld\n", (end.tv_nsec - start.tv_nsec)/n);
-
- return 0;
+return 0;
 }
