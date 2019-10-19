@@ -8,8 +8,6 @@
 #include <sched.h>
 #include <time.h>
 
-
-
 int main(int argc, char ** argv) {
 
 if(argc != 4){
@@ -23,19 +21,20 @@ cpu_set_t set;
 int parentCPU = atoi(argv[1]);
 int childCPU = atoi(argv[2]);
 int iteration = atoi(argv[3]);
-//struct timespec start, end;
+char string[80] = "text";
+char text[80];
 
+//struct timespec start, end;
+//int result = 0;
+
+CPU_ZERO(&set);
 int pipe1[2];
 int pipe2[2];
 
-CPU_ZERO(&set);
-
-
 pipe(pipe1);
 pipe(pipe2);
+
 int ret = fork();
-char string[80] = "text";
-char text[80];
 
 if(ret == -1){
 	perror("fork failed");
@@ -44,6 +43,7 @@ if(ret == -1){
 
 if (ret == 0) {
 	printf("I am his child\n");
+
 	CPU_SET(childCPU, &set);
         sched_setaffinity(getpid(), sizeof(set), &set);
 
@@ -52,8 +52,9 @@ if (ret == 0) {
 
 	for(int i = 0; i < iteration; ++i){
 	//write to parent through pipe1
-
+		printf("2\n");
 	write(pipe1[1], string, strlen(string)+1);
+		printf("3\n");
 
 	//read from parent through pipe2 -----------------------------
 	read(pipe2[0], text, strlen(string)+1);
@@ -63,20 +64,21 @@ if (ret == 0) {
 
 } else { // parent
 	printf("I am a parent\n");
+
 	CPU_SET(parentCPU, &set);
  	sched_setaffinity(getpid(), sizeof(set), &set);
 	close(pipe1[1]); //close pipe1 output
 	close(pipe2[0]); //close pipe2 input
-
 	while(1){
-//	clock_gettime(CLOCK_REALTIME, &start);
+	//clock_gettime(CLOCK_REALTIME, &start);
 	//read from child through pipe1 ------------------------------
+		printf("1\n");
 	read(pipe1[0], text, strlen(string)+1);
-	
+
+		printf("4\n");
 	//write to child through pipe2
 	write(pipe2[1], string, strlen(string)+1);
-
-
+		printf("5\n");
 	}
 
 	wait(NULL); //wait for child, so process shutdowns
