@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <sched.h>
+
+
+
+int main(void) {
+int pipe1[2];
+int pipe2[2];
+char string[] = "Hello new Process!\n";
+char readbuffer[80];
+pipe(fd);
+int ret = forl();
+if(ret == -1){
+	perror("fork failed");
+	exit(1);
+}
+
+if (ret == 0) {
+CPU_SET(childCPU, &set);
+
+               if (sched_setaffinity(getpid(), sizeof(set), &set) == -1)
+                   errExit("sched_setaffinity");
+CPU_SET(childCPU, &set);
+
+               if (sched_setaffinity(getpid(), sizeof(set), &set) == -1)
+                   errExit("sched_setaffinity");
+	CPU_SET(childCPU, &set);
+
+               if (sched_setaffinity(getpid(), sizeof(set), &set) == -1)
+                   errExit("sched_setaffinity");
+
+
+	// child: redirect standard output to a file
+	close(fd[1]); //close output
+	read(pipe1[0], readbuffer, sizeof(string)+1);
+	printf("Received string: %s", readbuffer);
+	exit(0);
+} else { // parent
+	
+
+	close(pipe1[0]); //close input
+	write(pip1[1],string, strlen(string)+1);
+	wait(0); //wait for child, so process shutdowns
+}
+return 0;
+}

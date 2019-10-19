@@ -37,37 +37,38 @@ if(ret == -1){
 }
 
 if (ret == 0) {
+	printf("I am his child\n");
 	CPU_SET(childCPU, &set);
         sched_setaffinity(getpid(), sizeof(set), &set);
 
 
-	//read from parent through pipe1
-	close(pipe1[1]); //close output
-	read(pipe1[0], readbuffer, sizeof(string)+1);
-	printf("Received string: %s", readbuffer);
+	//write to parent through pipe1
+	close(pipe1[0]); //close pipe1 input
+	write(pipe1[1],string, strlen(string)+1);
 
 
-	//write to parent through pipe2
-	close(pipe2[0]);
-	write(pipe2[1], string2, strlen(string2)+1);
+	//read from parent through pipe2
+	close(pipe2[1]); //close pipe2 output
+	read(pipe2[0], readbuffer2, sizeof(string2)+1);
+	printf("Received string2 %s\n", readbuffer2);
 
 	exit(0);
 
 } else { // parent
-
+	printf("I am the parent\n");
 	CPU_SET(parentCPU, &set);
  	sched_setaffinity(getpid(), sizeof(set), &set);
 
-	//write to child through pipe1
-	close(pipe1[0]); //close input
-	write(pipe1[1],string, strlen(string)+1);
+	//read from child through pipe1
+	close(pipe1[1]); //close pipe1 output
+	read(pipe1[0], readbuffer, sizeof(string)+1);
+	printf("Received string: %s", readbuffer);
 
 
-	//read from child through pipe2
-	
-	close(pipe2[1]);
-	read(pipe2[0], readbuffer2, sizeof(string2)+1);
-	printf("Received string2 %s\n", readbuffer2);
+	//write to child through pipe2
+	close(pipe2[0]); //close pipe2 input
+	write(pipe2[1], string2, strlen(string2)+1);
+
 
 	wait(NULL); //wait for child, so process shutdowns
 
