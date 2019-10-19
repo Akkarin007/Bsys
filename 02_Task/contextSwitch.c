@@ -24,7 +24,9 @@ int iteration = atoi(argv[3]);
 char string[80] = "text";
 char text[80];
 
-//struct timespec start, end;
+
+
+struct timespec start, end;
 //int result = 0;
 
 CPU_ZERO(&set);
@@ -52,13 +54,13 @@ if (ret == 0) {
 
 	for(int i = 0; i < iteration; ++i){
 	//write to parent through pipe1
-		printf("2\n");
+									printf("2\n");
 	write(pipe1[1], string, strlen(string)+1);
-		printf("3\n");
-
+									printf("3\n");
+	clock_gettime(CLOCK_REALTIME, &end);
+	printf("end Time!: %ld\n", end.tv_sec*100000000 + end.tv_nsec);
 	//read from parent through pipe2 -----------------------------
 	read(pipe2[0], text, strlen(string)+1);
-	printf("Received text: %s\n", text);
 	}
 	exit(0);
 
@@ -69,16 +71,18 @@ if (ret == 0) {
  	sched_setaffinity(getpid(), sizeof(set), &set);
 	close(pipe1[1]); //close pipe1 output
 	close(pipe2[0]); //close pipe2 input
-	while(1){
-	//clock_gettime(CLOCK_REALTIME, &start);
-	//read from child through pipe1 ------------------------------
-		printf("1\n");
-	read(pipe1[0], text, strlen(string)+1);
 
-		printf("4\n");
+	while(1){
+	//read from child through pipe1 ------------------------------
+
+	clock_gettime(CLOCK_REALTIME, &start);
+	printf("start!: %ld\n", end.tv_sec*100000000 + end.tv_nsec);
+									printf("1\n");
+	read(pipe1[0], text, strlen(string)+1);
+									printf("4\n");
 	//write to child through pipe2
 	write(pipe2[1], string, strlen(string)+1);
-		printf("5\n");
+									printf("5\n");
 	}
 
 	wait(NULL); //wait for child, so process shutdowns
