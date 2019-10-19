@@ -6,22 +6,27 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <sched.h>
+#include <time.h>
 
 
-int main(void) {
+
+int main(int argc, char ** argv) {
+
+if(argc != 4){
+	printf("arguments are too less or too much");
+	return 1;
+}
+
 
 cpu_set_t set;
-int parentCPU, childCPU;
+
+int parentCPU = atoi(argv[1]);
+int childCPU = atoi(argv[2]);
+int iteration = atoi(argv[3]);
+struct timespec start, end;
 
 int pipe1[2];
 int pipe2[2];
-parentCPU = 0;
-childCPU = 0;
-
-char string[] = "Hello new Process!\n";
-char readbuffer[80];
-char string2[] = "my name is Isy";
-char readbuffer2[80];
 
 CPU_ZERO(&set);
 
@@ -29,7 +34,8 @@ CPU_ZERO(&set);
 pipe(pipe1);
 pipe(pipe2);
 int ret = fork();
-
+char string[80] = "text";
+char text[80];
 
 if(ret == -1){
 	perror("fork failed");
@@ -41,34 +47,37 @@ if (ret == 0) {
 	CPU_SET(childCPU, &set);
         sched_setaffinity(getpid(), sizeof(set), &set);
 
-
-	//write to parent through pipe1
-	close(pipe1[0]); //close pipe1 input
-	write(pipe1[1],string, strlen(string)+1);
-
-
-	//read from parent through pipe2
 	close(pipe2[1]); //close pipe2 output
-	read(pipe2[0], readbuffer2, sizeof(string2)+1);
-	printf("Received string2 %s\n", readbuffer2);
+	close(pipe1[0]); //close pipe1 input
 
+	for(int i = 0; i < iteration; ++i){
+	//write to parent through pipe1
+
+	write(pipe1[1], string, strlen(string)+1);
+
+	//read from parent through pipe2 -----------------------------
+	read(pipe2[0], text, strlen(string)+1);
+	printf("Received text%s\n", text);
+	}
 	exit(0);
 
 } else { // parent
-	printf("I am the parent\n");
+	printf("I am a parent\n");
 	CPU_SET(parentCPU, &set);
  	sched_setaffinity(getpid(), sizeof(set), &set);
-
-	//read from child through pipe1
 	close(pipe1[1]); //close pipe1 output
-	read(pipe1[0], readbuffer, sizeof(string)+1);
-	printf("Received string: %s", readbuffer);
-
-
-	//write to child through pipe2
 	close(pipe2[0]); //close pipe2 input
-	write(pipe2[1], string2, strlen(string2)+1);
 
+	while(1){
+	clock_gettime(CLOCK_REALTIME, &start);
+	//read from child through pipe1 ------------------------------
+	read(pipe1[0], text, strlen(string)+1);
+	
+	//write to child through pipe2
+	write(pipe2[1], string, strlen(string)+1);
+
+
+	}
 
 	wait(NULL); //wait for child, so process shutdowns
 
