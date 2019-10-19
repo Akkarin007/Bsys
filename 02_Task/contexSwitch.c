@@ -21,6 +21,8 @@ childCPU = 0;
 char string[] = "Hello new Process!\n";
 char readbuffer[80];
 char string2[] = "my name is Isy";
+char readbuffer2[80];
+
 CPU_ZERO(&set);
 
 
@@ -62,10 +64,10 @@ if (ret == 0) {
 
 
 	//read from child through pipe2
-	char string3[80];
+	
 	close(pipe2[1]);
-	read(pipe2[0], string3, sizeof(string2)+1);
-	printf("Received string2 %s\n", string2); 
+	read(pipe2[0], readbuffer2, sizeof(string2)+1);
+	printf("Received string2 %s\n", readbuffer2);
 
 	wait(NULL); //wait for child, so process shutdowns
 
