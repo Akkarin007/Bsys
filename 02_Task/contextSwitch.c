@@ -24,9 +24,8 @@ cpu_set_t set;
 int parentCPU = atoi(argv[1]);
 int childCPU = atoi(argv[2]);
 int iteration = atoi(argv[3]);
-char string[80] = "text";
-char text[80];
-long int myTime[iteration];
+int long * myCurrentTime =  (int long*)malloc(sizeof(int long) * 2);;
+long int myTime[iteration*4];
 
 
 struct timespec start, end;
@@ -54,30 +53,40 @@ if (ret == 0) {
 
 	close(pipe2[1]); //close pipe2 output
 	close(pipe1[0]); //close pipe1 input
+	int a = 0;
+
 
 	for(int i = 0; i < iteration; ++i){
 	//write to parent through pipe1
-									printf("2\n");
-	write(pipe1[1], string, strlen(string)+1);
-									printf("3\n");
-	clock_gettime(CLOCK_REALTIME, &end);
+
+	clock_gettime(CLOCK_REALTIME, &end);//end1
 	printf("end Time!: %ld\n", end.tv_sec*100000000 + end.tv_nsec);
-	myTime[i] = end.tv_sec*100000000 + end.tv_nsec;
+	myTime[a++] = end.tv_sec*100000000 + end.tv_nsec;
+									printf("2\n");
+
+	write(pipe1[1], myCurrentTime, sizeof(int long));
+									printf("3\n");
+
+	clock_gettime(CLOCK_REALTIME, &start);//start2
+	myCurrentTime[a++] = start.tv_sec*100000000 + start.tv_nsec;
+	printf("start1!: %ld\n", start.tv_sec*100000000 + start.tv_nsec);
 
 
 	//read from parent through pipe2 -----------------------------
-	read(pipe2[0], text, strlen(string)+1);
+	read(pipe2[0], myCurrentTime, sizeof(int long));
+	myTime[a++] = myCurrentTime[0];
+	myTime[a++] = myCurrentTime[1];
 	}
 
 
 
 
 
-	for(int i = 0; i < iteration; ++i){
+	for(int i = 0; i < iteration*4; ++i){
 	printf("%ld\n",myTime[i]);
-	result += myTime[i];
+		if((i % 4)==0)	result += myTime[i] - myTime[i+2] + myTime[i+1] - myTime[i+3];
 	}
-	printf("my RESULT !!!! %ld\n",result/iteration );
+	printf("my RESULT !!!! %ld\n",result/(iteration*4));
 	exit(0);
 
 } else { // parent
@@ -87,19 +96,26 @@ if (ret == 0) {
  	sched_setaffinity(getpid(), sizeof(set), &set);
 	close(pipe1[1]); //close pipe1 output
 	close(pipe2[0]); //close pipe2 input
-	int i = 0;
+
+	int long *nothing = (int long*)malloc(sizeof(int long));
+
+
+
 	while(1){
 	//read from child through pipe1 ------------------------------
 
-	clock_gettime(CLOCK_REALTIME, &start);
-	myTime[i] = start.tv_sec*100000000 + start.tv_nsec;
-	++i;
-	printf("start!: %ld\n", start.tv_sec*100000000 + start.tv_nsec);
+	clock_gettime(CLOCK_REALTIME, &start);//Start1
+	myCurrentTime[0] = start.tv_sec*100000000 + start.tv_nsec;
+	printf("start1!: %ld\n", start.tv_sec*100000000 + start.tv_nsec);
 									printf("1\n");
-	read(pipe1[0], text, strlen(string)+1);
+	read(pipe1[0], nothing, sizeof(int long));
+
+	clock_gettime(CLOCK_REALTIME, &end);//end2
+	myCurrentTime[1] = end.tv_sec*100000000 + end.tv_nsec;
+	printf("end2 Time!: %ld\n", end.tv_sec*100000000 + end.tv_nsec);
 									printf("4\n");
 	//write to child through pipe2
-	write(pipe2[1], string, strlen(string)+1);
+	write(pipe2[1], myCurrentTime, sizeof(int long) * 2);
 									printf("5\n");
 	}
 
