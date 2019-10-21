@@ -1,0 +1,23 @@
+Figure 8.2
+python ./mlfq.py -j 1 -n 3 -q 10 -m 200 -M 0 -l 0,200,0 -c
+
+Figure 8.3
+python ./mlfq.py -j 1 -n 3 -q 10 -m 200 -M 0 -l 0,200,0:100,20,0 -c 
+
+Figure 8.4
+python ./mlfq.py -j 1 -n 3 -q 10 -m 200 -M 0 -l 0,200,0:50,25,1 -c
+
+Figure 8.5
+python ./mlfq.py -j 3 -n 3 -q 10 -m 200 -l 0,200,0:100,50,1:100,50,1 -c -S -i 1
+
+Figure 8.5
+python ./mlfq.py -j 3 -n 3 -q 10 -m 200 -l 0,200,0:100,50,1:100,50,1 -c -S -i 1 -B 50
+
+Figure 8.6 
+python ./mlfq.py -j 3 -n 3 -q 10 -m 200 -l 0,200,0:75,90,9 -c -S -i 1 
+
+Figure 8.6 right with Gaming Tolerance
+python ./mlfq.py -j 3 -n 3 -q 10 -m 200 -l 0,200,0:75,90,9 -c -i 1
+
+Figure 8.7
+python ./mlfq.py -j 3 -n 3 -Q 10,20,40 -m 200 -l 0,120,0:0,120,0 -c -a 2
