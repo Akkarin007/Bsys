@@ -60,7 +60,7 @@ int main(int argc, char ** argv) {
 
 
 		int anfangszeit = (end.tv_sec - start.tv_sec) *1000000000 + end.tv_nsec - start.tv_nsec;
-		printf("test: %d \n",anfangszeit);
+
 
 		for(int i = 0; i < iteration; ++i){
 			//write to parent through pipe1
