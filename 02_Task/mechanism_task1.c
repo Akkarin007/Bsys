@@ -10,38 +10,31 @@ int main(int argc, char ** argv) {
 	fprintf(stderr, "Aufruf: %s Integer Wert", argv[0]);
 	}
 
-	printf("helloMechanismTask4.c:\n");
-	printf("	My PID %d.\n", getpid());
-
 	long n = atoi(argv[1]);
-	struct timespec start, end, start2, end2, test;
-	long result = 0;	long first = 0;
-	long second = 0;
-	long *start;
-	long *second;
-	int i = -1;
+	struct timespec start, end, test;
+	unsigned long midTimeResult = 0;
+
+
 
 	for(int i = 0; i < n; ++i){
 		clock_gettime(CLOCK_REALTIME, &start);
-		getpid();
-		clock_gettime(CLOCK_REALTIME, &end)
-		first[++i] = start ;
+		read(0,NULL,0);
+		clock_gettime(CLOCK_REALTIME, &end);
+		midTimeResult += (end.tv_sec - start.tv_sec) * 1000000000 + end.tv_nsec - start.tv_nsec ;
+	}
+	clock_gettime(CLOCK_REALTIME, &start);
+
+	for(int i = 0; i < n; ++i){
+		clock_gettime(CLOCK_REALTIME, &test);
+		clock_gettime(CLOCK_REALTIME, &test);
 	}
 	clock_gettime(CLOCK_REALTIME, &end);
+	midTimeResult -= (end.tv_sec - start.tv_sec) * 1000000000 + end.tv_nsec - start.tv_nsec ;
 
-	
-	for(int i = 0; i < 100; ++i){
-		clock_gettime(CLOCK_REALTIME, &start2);
-		clock_gettime(CLOCK_REALTIME, &test);
-		clock_gettime(CLOCK_REALTIME, &end2);
-		second += (end2.tv_sec - start2.tv_sec)*1000000000 + end2.tv_nsec - start2.tv_nsec;
-	}
 
-	long second = ;
+	int result = midTimeResult / n;
 
-	result = first - (second/100);
-
-	printf("duration in nanoseconds: %ld\n", result/n);
+	printf("%d", result);
 
 return 0;
 }

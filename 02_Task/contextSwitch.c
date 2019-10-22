@@ -25,7 +25,17 @@ int main(int argc, char ** argv) {
 	int childCPU = atoi(argv[2]);
 	int iteration = atoi(argv[3]);
 	unsigned long * myCurrentTime =  (unsigned long*)malloc(sizeof(unsigned long) * 2);
+	if(myCurrentTime == NULL){
+		perror("alloc failed");
+		return 1;
+	}
+
 	unsigned long * myTime =   (unsigned long*)malloc(sizeof(unsigned long) * 4 * iteration);;
+	if(myTime == NULL){
+		perror("alloc failed");
+		free(myCurrentTime);
+		return 1;
+	}
 
 
 	struct timespec start, end;
@@ -35,8 +45,18 @@ int main(int argc, char ** argv) {
 	int pipe1[2];
 	int pipe2[2];
 
-	pipe(pipe1);
-	pipe(pipe2);
+	if(pipe(pipe1) == -1){
+		perror("pipe1 failed");
+		free(myCurrentTime);
+		free(myTime);
+		return 1;
+	}
+	if(pipe(pipe2) == -1){
+		perror("pipe2 failed");
+		free(myCurrentTime);
+		free(myTime);
+		return 1;
+	}
 
 	int ret = fork();
 
@@ -46,6 +66,7 @@ int main(int argc, char ** argv) {
 	}
 
 	if (ret == 0) {
+
 		clock_gettime(CLOCK_REALTIME, &start);
 
 		int result = 0;
@@ -59,7 +80,7 @@ int main(int argc, char ** argv) {
 		clock_gettime(CLOCK_REALTIME, &end);
 
 
-		int anfangszeit = (end.tv_sec - start.tv_sec) *1000000000 + end.tv_nsec - start.tv_nsec;
+		int anfangszeit = (end.tv_sec - start.tv_sec) * 1000000000 + end.tv_nsec - start.tv_nsec;
 
 
 		for(int i = 0; i < iteration; ++i){
@@ -68,7 +89,6 @@ int main(int argc, char ** argv) {
 			clock_gettime(CLOCK_REALTIME, &end);//end1
 			write(pipe1[1], myCurrentTime, sizeof(unsigned long) * 2);
 			clock_gettime(CLOCK_REALTIME, &start);//start2
-
 
 			//read from parent through pipe2 -----------------------------
 			read(pipe2[0], myCurrentTime, sizeof(unsigned long) * 2);
@@ -96,8 +116,8 @@ int main(int argc, char ** argv) {
 		clock_gettime(CLOCK_REALTIME, &end);
 
 		int forLoopTime = ((end.tv_sec - start.tv_sec) *1000000000 + end.tv_nsec - start.tv_nsec)/iteration;
-		
-		printf("my RESULT !!!! %d\n",((result-anfangszeit)/(iteration*2))-forLoopTime);
+
+		printf("my RESULT in nanosec! %d\n",((result-anfangszeit)/(iteration*2))-forLoopTime);
 
 		exit(0);
 
