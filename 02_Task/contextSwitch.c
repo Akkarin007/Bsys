@@ -95,9 +95,9 @@ int main(int argc, char ** argv) {
 		}
 		clock_gettime(CLOCK_REALTIME, &end);
 
-		int test = ((end.tv_sec - start.tv_sec) *1000000000 + end.tv_nsec - start.tv_nsec)/iteration;
+		int forLoopTime = ((end.tv_sec - start.tv_sec) *1000000000 + end.tv_nsec - start.tv_nsec)/iteration;
 		
-		printf("my RESULT !!!! %d\n",((result-anfangszeit)/(iteration*2))-test);
+		printf("my RESULT !!!! %d\n",((result-anfangszeit)/(iteration*2))-forLoopTime);
 
 		exit(0);
 
