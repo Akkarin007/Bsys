@@ -1,0 +1,18 @@
+#proc getdata
+file: /home/is391zey/Documents/BSYS/19_TLB/out.txt
+fieldnames: count dt
+
+#proc areadef
+rectangle: 1 1 5 3
+xscaletype: date mmddyy
+xautorange: datafield=dt
+yautorange: datafield=count incmult=2.0 lowfix=0
+xaxis.stubs: inc 1 month
+xaxis.stubformat: Mmmyy
+yaxis.stubs: inc
+
+#proc lineplot
+xfield: dt
+yfield: count
+linedetails: color=red
+A large collection of script examp
