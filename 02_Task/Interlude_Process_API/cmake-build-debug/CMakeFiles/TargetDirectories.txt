@@ -1,3 +1,0 @@
-C:/Users/ismoz/Documents/00_GitHub/Bsys/02_Task/Interlude_Process_API/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/ismoz/Documents/00_GitHub/Bsys/02_Task/Interlude_Process_API/cmake-build-debug/CMakeFiles/Interlude_Process_API.dir
-C:/Users/ismoz/Documents/00_GitHub/Bsys/02_Task/Interlude_Process_API/cmake-build-debug/CMakeFiles/rebuild_cache.dir
