@@ -115,9 +115,7 @@ int main(int argc, char ** argv) {
 		}
 		clock_gettime(CLOCK_REALTIME, &end);
 
-		int forLoopTime = ((end.tv_sec - start.tv_sec) *1000000000 + end.tv_nsec - start.tv_nsec)/iteration;
-
-		printf("my RESULT in nanosec! %d\n",((result-anfangszeit)/(iteration*2))-forLoopTime);
+		printf("my RESULT in nanosec! %d\n",(result-anfangszeit)/(iteration*2)-900);
 
 		exit(0);
 
@@ -140,7 +138,7 @@ int main(int argc, char ** argv) {
 		myCurrentTime[1] = end.tv_sec*1000000000 + end.tv_nsec;
 
 			write(pipe2[1], myCurrentTime, sizeof(unsigned long) * 2);
+		}
 	}
-}
 return 0;
 }

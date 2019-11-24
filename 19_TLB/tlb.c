@@ -24,7 +24,9 @@ int main(int argc, char ** argv) {
 	int parentCPU = atoi(argv[1]);
 	int childCPU = atoi(argv[2]);
 	int iteration = atoi(argv[3]);
+
 	unsigned long * myCurrentTime =  (unsigned long*)malloc(sizeof(unsigned long) * 2);
+
 	if(myCurrentTime == NULL){
 		perror("alloc failed");
 		return 1;
