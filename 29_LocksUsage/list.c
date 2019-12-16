@@ -62,9 +62,9 @@ int main(int argc, char *argv[]) {
     pthread_t threads[anzahl];
     int zeitMessung;
     int messung;
-    pthread_t threads[anzahl];
-	threadargs argsT[anzahl];
-	list liste;
+
+    threadargs argsT[anzahl];
+    list liste;
     init(&liste);
 
     long zeit[anzahl];
