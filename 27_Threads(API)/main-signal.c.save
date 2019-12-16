@@ -6,16 +6,16 @@ int done = 0;
 
 void* worker(void* arg) {
     printf("this should print first\n");
-    done = 1;
+    do
     return NULL;
 }
 
 int main(int argc, char *argv[]) {
     pthread_t p;
     Pthread_create(&p, NULL, worker, NULL);
+    int a = 20;
+    while (a !=0) a--;
 
-    while (done == 0);
-   pthread_join(p,NULL);
-   printf("this should print last\n");
+    printf("this should print last\n");
     return 0;
 }
