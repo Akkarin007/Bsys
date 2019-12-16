@@ -45,8 +45,8 @@ unsigned long getPrecision(void){
 
 int main(int argc, char *argv[]) {
 
-	if (argc != 3) {
-		printf("Please restart");
+	if (argc != 4) {
+		printf("Please try again!");
 		exit(1);
 	}
 
@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
 
     int anzahl = atoi(argv[1]);
     int loops = atoi(argv[2]);
+    int threshhold = atoi(argv[3]);
 
 
     pthread_t threads[anzahl];
@@ -65,8 +66,8 @@ int main(int argc, char *argv[]) {
     sloppycounter zaehler;
     init(&zaehler,threshhold);
     threadargs arguments[anzahl];
-    arguments.zaehler = &zaehler;
-    arguments.anzahl = loops;
+    arguments->zaehler = &zaehler;
+    arguments->anzahl = loops;
 
     long zeit[anzahl];
 
