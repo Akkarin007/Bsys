@@ -3,26 +3,27 @@
 #include <time.h>
 #include <sched.h>
 #include <unistd.h>
-#include "sloppy_counter.h"
+#include "list.h"
+
 
 typedef struct threadargs
 {
-    sloppycounter *zaehler;
-    int id;
+    list *liste;
+    int data;
     int anzahl;
 } threadargs;
 
-
-void *task(void *argsT)
+void *hinzufuegen(void *argsT)
 {
-    threadargs *args = (threadargs *) argsT;
-    int i;
-    for(i = 0; i < args->anzahl; i++)
-    {
-        sloppyUpdate(args->zaehler, args->id, 1);
-    }
+	threadargs *args = (threadargs *) argsT;
+	int i;
+	for(i = 0; i < args->anzahl; i++)
+	{
+		add(args->liste,args->data);
+	}
     return NULL;
 }
+
 
 unsigned long getPrecision(void){
 
@@ -57,16 +58,14 @@ int main(int argc, char *argv[]) {
 
     int anzahl = atoi(argv[1]);
     int loops = atoi(argv[2]);
-    int threshhold = atoi(argv[3]);
 
     pthread_t threads[anzahl];
     int zeitMessung;
     int messung;
-    sloppycounter zaehler;
-    init(&zaehler,threshhold);
-    threadargs arguments[anzahl];
-    arguments.zaehler = &zaehler;
-    arguments.anzahl = loops;
+    pthread_t threads[anzahl];
+	threadargs argsT[anzahl];
+	list liste;
+    init(&liste);
 
     long zeit[anzahl];
 
@@ -77,10 +76,10 @@ int main(int argc, char *argv[]) {
     int i;
     for(i = 0; i < anzahl; i++)
     {
-        arguments[i].id = i;
-        arguments[i].zaehler = &zaehler;
-        arguments[i].anzahl = loops;
-       pthread_create(&threads[i], NULL, task, &arguments[i]);
+        argsT[i].liste = &liste;
+		argsT[i].data = i*i;
+		argsT[i].anzahl = loops;
+		pthread_create(&threads[i], NULL, hinzufuegen, &argsT[i]);
     }
     for(i = 0; i < anzahl; i++)
     {
