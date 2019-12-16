@@ -1,8 +1,5 @@
 #define _GNU_SOURCE
-#include <pthread.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
 #include <time.h>
 #include <sched.h>
 #include <unistd.h>
@@ -63,7 +60,7 @@ int main(int argc, char *argv[]) {
 
 
     pthread_t threads[anzahl];
-    double zeitMessung;
+    int zeitMessung;
     int messung;
     counter zaehler;
     init(&zaehler);
@@ -90,7 +87,6 @@ int main(int argc, char *argv[]) {
 
     zeitMessung = (end.tv_sec - start.tv_sec) * 1000000000 + (end.tv_nsec - start.tv_nsec)-getPrecision();
 
-    printf("%f\n", zeitMessung);
+    printf("%d\n", zeitMessung);
     return 0;
 }
-
