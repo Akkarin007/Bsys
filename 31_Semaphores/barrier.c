@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-#include "common_threads.h"
+#include <pthread.h>
+#include <semaphore.h>
+//#include "common_threads.h"
 
 // If done correctly, each child should print their "before" message
 // before either prints their "after" message. Test by adding sleep(1)
@@ -14,6 +15,9 @@
 
 typedef struct __barrier_t {
     // add semaphores and other information here
+    sem_t s;
+    int numT;
+    int count;
 } barrier_t;
 
 
@@ -22,10 +26,20 @@ barrier_t b;
 
 void barrier_init(barrier_t *b, int num_threads) {
     // initialization code goes here
+    sem_init(&b->s, 0, 0);
+    b->numT = num_threads;
+    b->count = 0;
 }
 
 void barrier(barrier_t *b) {
     // barrier code goes here
+    // what goes here?
+    b->count += 1;
+    sleep(1);
+    if(b->count != b->numT) sem_wait(&b->s);
+    sleep(1);
+    sem_post(&b->s);
+    sleep(1);
 }
 
 //
@@ -50,7 +64,7 @@ int main(int argc, char *argv[]) {
     assert(argc == 2);
     int num_threads = atoi(argv[1]);
     assert(num_threads > 0);
-
+    
     pthread_t p[num_threads];
     tinfo_t t[num_threads];
 
@@ -60,11 +74,11 @@ int main(int argc, char *argv[]) {
     int i;
     for (i = 0; i < num_threads; i++) {
 	t[i].thread_id = i;
-	Pthread_create(&p[i], NULL, child, &t[i]);
+	pthread_create(&p[i], NULL, child, &t[i]);
     }
 
     for (i = 0; i < num_threads; i++) 
-	Pthread_join(p[i], NULL);
+	pthread_join(p[i], NULL);
 
     printf("parent: end\n");
     return 0;
