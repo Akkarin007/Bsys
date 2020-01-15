@@ -1,4 +1,4 @@
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 5:100,5:100 -p -c                                                                           
+ python process-run2to3.py -l 5:100,5:100 -p -c                                                                           
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2     RUN:cpu      READY          1
@@ -15,7 +15,7 @@ Stats: Total Time 10
 Stats: CPU Busy 10 (100.00%)
 Stats: IO Busy  0 (0.00%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 4:100,1:0 -c -p                                                                             
+ python process-run2to3.py -l 4:100,1:0 -c -p                                                                             
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2     RUN:cpu      READY          1
@@ -32,7 +32,7 @@ Stats: Total Time 10
 Stats: CPU Busy 5 (50.00%)
 Stats: IO Busy  4 (40.00%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 1:0,4:100 -c -p                                                                             
+ python process-run2to3.py -l 1:0,4:100 -c -p                                                                             
 Time     PID: 0     PID: 1        CPU        IOs
   1      RUN:io      READY          1
   2     WAITING    RUN:cpu          1          1
@@ -45,7 +45,7 @@ Stats: Total Time 6
 Stats: CPU Busy 5 (83.33%)
 Stats: IO Busy  4 (66.67%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 1:0,4:100 -c -S SWITCH_ON_END -c -p                                                         
+ python process-run2to3.py -l 1:0,4:100 -c -S SWITCH_ON_END -c -p                                                         
 Time     PID: 0     PID: 1        CPU        IOs
   1      RUN:io      READY          1
   2     WAITING      READY                     1
@@ -61,7 +61,7 @@ Stats: Total Time 9
 Stats: CPU Busy 5 (55.56%)
 Stats: IO Busy  4 (44.44%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 1:0,4:100 -c -S SWITCH_ON_IO -c -p                                                          
+ python process-run2to3.py -l 1:0,4:100 -c -S SWITCH_ON_IO -c -p                                                          
 Time     PID: 0     PID: 1        CPU        IOs
   1      RUN:io      READY          1
   2     WAITING    RUN:cpu          1          1
@@ -74,7 +74,7 @@ Stats: Total Time 6
 Stats: CPU Busy 5 (83.33%)
 Stats: IO Busy  4 (66.67%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -I IO_RUN_LATER -c -p                                 
+ python process-run2to3.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -I IO_RUN_LATER -c -p                                 
 Time     PID: 0     PID: 1     PID: 2     PID: 3        CPU        IOs
   1      RUN:io      READY      READY      READY          1
   2     WAITING    RUN:cpu      READY      READY          1          1
@@ -108,7 +108,7 @@ Stats: Total Time 27
 Stats: CPU Busy 18 (66.67%)
 Stats: IO Busy  12 (44.44%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -l 3:0,5:100,5:100,5:100 -I IO_RUN_IMMEDIATE -c -p
+ python process-run2to3.py -l 3:0,5:100,5:100,5:100 -I IO_RUN_IMMEDIATE -c -p
 Time     PID: 0     PID: 1     PID: 2     PID: 3        CPU        IOs
   1      RUN:io      READY      READY      READY          1
   2     WAITING    RUN:cpu      READY      READY          1          1
@@ -133,7 +133,7 @@ Stats: Total Time 18
 Stats: CPU Busy 18 (100.00%)
 Stats: IO Busy  12 (66.67%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 1 -l 3:50,3:50                                                                              
+ python process-run2to3.py -s 1 -l 3:50,3:50                                                                              
 Produce a trace of what would happen when you run these processes:
 Process 0
   cpu
@@ -149,7 +149,7 @@ Important behaviors:
   System will switch when the current process is FINISHED or ISSUES AN IO
   After IOs, the process issuing the IO will run LATER (when it is its turn)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 1 -l 3:50,3:50 -c -p                                                                        
+ python process-run2to3.py -s 1 -l 3:50,3:50 -c -p                                                                        
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2      RUN:io      READY          1
@@ -168,7 +168,7 @@ Stats: Total Time 12
 Stats: CPU Busy 6 (50.00%)
 Stats: IO Busy  8 (66.67%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 2 -l 3:50,3:50 -c -p                                                                        
+ python process-run2to3.py -s 2 -l 3:50,3:50 -c -p                                                                        
 Time     PID: 0     PID: 1        CPU        IOs
   1      RUN:io      READY          1
   2     WAITING    RUN:cpu          1          1
@@ -188,7 +188,7 @@ Stats: Total Time 13
 Stats: CPU Busy 6 (46.15%)
 Stats: IO Busy  11 (84.62%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 3 -l 3:50,3:50 -c -p                                                                        
+ python process-run2to3.py -s 3 -l 3:50,3:50 -c -p                                                                        
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2      RUN:io      READY          1
@@ -208,7 +208,7 @@ Stats: Total Time 13
 Stats: CPU Busy 6 (46.15%)
 Stats: IO Busy  9 (69.23%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -I IO_RUN_IMMEDIATE                                                    
+ python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -I IO_RUN_IMMEDIATE                                                    
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2      RUN:io      READY          1
@@ -228,7 +228,7 @@ Stats: Total Time 13
 Stats: CPU Busy 6 (46.15%)
 Stats: IO Busy  9 (69.23%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -I IO_RUN_LATER                                                        
+ python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -I IO_RUN_LATER                                                        
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2      RUN:io      READY          1
@@ -248,7 +248,7 @@ Stats: Total Time 13
 Stats: CPU Busy 6 (46.15%)
 Stats: IO Busy  9 (69.23%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -S SWITCH_ON_IO                                                        
+ python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -S SWITCH_ON_IO                                                        
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2      RUN:io      READY          1
@@ -268,7 +268,7 @@ Stats: Total Time 13
 Stats: CPU Busy 6 (46.15%)
 Stats: IO Busy  9 (69.23%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task> python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -S SWITCH_ON_END                                                       
+ python process-run2to3.py -s 3 -l 3:50,3:50 -c -p -S SWITCH_ON_END                                                       
 Time     PID: 0     PID: 1        CPU        IOs
   1     RUN:cpu      READY          1
   2      RUN:io      READY          1
@@ -293,4 +293,4 @@ Stats: Total Time 18
 Stats: CPU Busy 6 (33.33%)
 Stats: IO Busy  12 (66.67%)
 
-PS C:\Users\ismoz\Documents\01_Git\Bsys\01_Task>  
+  
